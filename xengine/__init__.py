@@ -1,3 +1,4 @@
 from xengine.colors import  *
-from xengine.drawing import Point, Triangle
+from xengine.points import  Point
+from xengine.shapes import  Triangle
 from xengine.windows import Window
