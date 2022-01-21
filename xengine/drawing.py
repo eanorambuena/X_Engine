@@ -4,6 +4,8 @@ import numpy as np
 
 from xengine.colors import *
 
+NOT_DEFINED = str(- 10 ** 9) 
+
 class Point(list):
 
     def __init__(self, x = 0, y = 0, z = 0, RGBA = WHITE):
@@ -68,7 +70,7 @@ def NONE():
 
 class Window:
 
-    def __init__(self, width = 720, heigth = 480, title = "XEngine Window", monitor = None, share = None, FPS = 60, setup_function = NONE, loop_function = NONE, limit_time = 10 ** 5):
+    def __init__(self, width = 720, heigth = 480, title = "XEngine Window", monitor = None, share = None, FPS = 60, setup_function = NONE, loop_function = NONE, auto_setup = True, limit_time = 10 ** 5):
         self.width = width
         self.height = heigth
         self.title = title
@@ -78,32 +80,39 @@ class Window:
         self.FPS = FPS
         self.setup_function = setup_function
         self.loop_function = loop_function
+        self.auto_setup = auto_setup
 
         self.GL_WINDOW = self.setup()
         self.loop()
 
     def setup(self):
 
-        if not glfw.init(): # Initialize the window
-            return
+        window = NOT_DEFINED
 
-        window = glfw.create_window(self.width, self.height, self.title, self.monitor, self.share)
+        if self.auto_setup:
+            if not glfw.init(): # Initialize the window
+                return
 
-        if not window:
-            glfw.terminate()
-            return
-        
-        glfw.make_context_current(window) # Make the window the current window
+            window = glfw.create_window(self.width, self.height, self.title, self.monitor, self.share)
 
-        glClearColor(1, 1, 1, 1)
+            if not window:
+                glfw.terminate()
+                return
+            
+            glfw.make_context_current(window) # Make the window the current window
+
+            glClearColor(1, 1, 1, 1)
 
         self.setup_function()
+
+        if window is NOT_DEFINED:
+            raise Exception("Window not created in setup function while auto_setup is set to True")
 
         return window
 
     def loop(self):
         t = 0
-        while not glfw.window_should_close(self.GL_WINDOW) and t < self.LIMIT_TIME:
+        while not glfw.window_should_close(self.GL_WINDOW) and t < self.limit_time:
             glfw.poll_events() # Verify events are correct
 
             glClear(GL_COLOR_BUFFER_BIT)
