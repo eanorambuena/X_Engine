@@ -1,0 +1,1 @@
+UNDEFINED = str(- 10 ** 9)

@@ -1,6 +1,6 @@
-import glfw      # pip install glfw
-import numpy as np
-from OpenGL.GL import (
+import  glfw # pip install glfw
+import  numpy as np
+from    OpenGL.GL import (
     glClear,
     glClearColor,
     glColorPointer,
@@ -12,9 +12,8 @@ from OpenGL.GL import (
     GL_VERTEX_ARRAY
 ) # pip install PyOpenGL
 
-from xengine.colors import *
-
-UNDEFINED = str(- 10 ** 9) 
+from xengine.colors import  *
+from xengine.types import   UNDEFINED
 
 class Point(list):
 
