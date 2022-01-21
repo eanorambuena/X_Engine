@@ -42,7 +42,7 @@ class Window:
 
             glClearColor(1, 1, 1, 1)
 
-        self.setup_function()
+        self.setup_function(self)
 
         if window is UNDEFINED:
             raise Exception("UNDEFINED_ERROR: Window not created in setup function while auto_setup is set to False")
@@ -56,7 +56,7 @@ class Window:
 
             glClear(GL_COLOR_BUFFER_BIT)
 
-            self.loop_function() # Drawing code
+            self.loop_function(self) # Drawing code
             
             glfw.swap_buffers(self.GL_WINDOW) # Swap the Drawing buffer with the Display buffer
 
