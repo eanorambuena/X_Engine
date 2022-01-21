@@ -1,6 +1,16 @@
 import glfw      # pip install glfw
-from OpenGL.GL import * # pip install PyOpenGL
 import numpy as np
+from OpenGL.GL import (
+    glClear,
+    glClearColor,
+    glColorPointer,
+    glEnableClientState,
+    glVertexPointer,
+    GL_COLOR_ARRAY,
+    GL_COLOR_BUFFER_BIT,
+    GL_FLOAT,
+    GL_VERTEX_ARRAY
+) # pip install PyOpenGL
 
 from xengine.colors import *
 
