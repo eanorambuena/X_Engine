@@ -4,7 +4,7 @@ import numpy as np
 
 from xengine.colors import *
 
-NOT_DEFINED = str(- 10 ** 9) 
+UNDEFINED = str(- 10 ** 9) 
 
 class Point(list):
 
@@ -87,7 +87,7 @@ class Window:
 
     def setup(self):
 
-        window = NOT_DEFINED
+        window = UNDEFINED
 
         if self.auto_setup:
             if not glfw.init(): # Initialize the window
@@ -105,8 +105,8 @@ class Window:
 
         self.setup_function()
 
-        if window is NOT_DEFINED:
-            raise Exception("NOT_DEFINED_ERROR: Window not created in setup function while auto_setup is set to False")
+        if window is UNDEFINED:
+            raise Exception("UNDEFINED_ERROR: Window not created in setup function while auto_setup is set to False")
 
         return window
 
