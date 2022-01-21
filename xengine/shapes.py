@@ -1,16 +1,36 @@
+import ctypes
 import  numpy as np
+
 from    OpenGL.GL import (
+    glBindBuffer,
+    glBufferData,
     glColorPointer,
     glEnableClientState,
+    glEnableVertexAttribArray,
+    glGenBuffers,
+    glGetAttribLocation,
+    glUseProgram,
+    glVertexAttribPointer,
     glVertexPointer,
+    GL_ARRAY_BUFFER,
     GL_COLOR_ARRAY,
     GL_FLOAT,
-    GL_VERTEX_ARRAY
+    GL_FRAGMENT_SHADER,
+    GL_STATIC_DRAW,
+    GL_VERTEX_ARRAY,
+    GL_VERTEX_SHADER,
 ) # pip install PyOpenGL
+
+from    OpenGL.GL.shaders import (
+    compileShader,
+    compileProgram
+)
 
 from xengine.colors import  *
 from xengine.points import  Point
 from xengine.types import   UNDEFINED
+
+BYTES_PER_FLOAT = 4
 
 class Triangle(list):
 
@@ -53,3 +73,67 @@ class Triangle(list):
 
         glEnableClientState(GL_COLOR_ARRAY)
         glColorPointer(4, GL_FLOAT, 0, self.colors)
+
+class GeneralShape(list):
+
+    def __init__(self, *points: Point):
+        points_list = list(points)
+
+        self.initialize_general_shape(points_list)
+
+    def initialize_general_shape(self, points):
+        super().__init__(points)
+
+        vertices = []
+
+        for point in points:
+            vertices.append(point.x)
+            vertices.append(point.y)
+            vertices.append(point.z)
+
+            vertices.append(point.R)
+            vertices.append(point.G)
+            vertices.append(point.B)
+            vertices.append(point.A)
+
+        self.vertices = np.array(vertices, dtype=np.float32)
+
+    def adapt_to_window(self, window = UNDEFINED, width = UNDEFINED, height = UNDEFINED):
+
+        new_points = []
+
+        for point in self:
+
+            if window is not UNDEFINED:
+                new_point = point.adapt_to_window(window)
+
+            else:
+                new_point = point.adapt_to_window(width = width, height = height)
+
+            new_points.append(new_point)
+
+        self.initialize_general_shape(new_points)
+
+    def set_shader(self, vertex_shader, fragment_shader):
+        compiled_vertex_shader = compileShader(vertex_shader, GL_VERTEX_SHADER)
+        compiled_fragment_shader = compileShader(fragment_shader, GL_FRAGMENT_SHADER)
+
+        self.shader = compileProgram(compiled_vertex_shader, compiled_fragment_shader)
+
+    def draw(self):
+        glUseProgram(self.shader)
+
+        VBO = glGenBuffers(1)
+
+        glBindBuffer(GL_ARRAY_BUFFER, VBO)
+
+        number_of_bytes = len(self.vertices) * BYTES_PER_FLOAT
+
+        glBufferData(GL_ARRAY_BUFFER, number_of_bytes, self.vertices, GL_STATIC_DRAW)
+
+        position = glGetAttribLocation(self.shader, "a_position")
+
+        glEnableVertexAttribArray(position)
+
+        pointer = ctypes.c_void_p(0)
+        glVertexAttribPointer(position, 3, GL_FLOAT, False, 20, pointer)
