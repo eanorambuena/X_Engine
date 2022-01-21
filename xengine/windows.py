@@ -21,6 +21,8 @@ class Window:
         self.loop_function = loop_function
         self.auto_setup = auto_setup
 
+        self.internal_vars = {}
+
         self.GL_WINDOW = self.setup()
         self.loop()
 
