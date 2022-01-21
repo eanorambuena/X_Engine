@@ -11,14 +11,13 @@ from    OpenGL.GL import (
 
 from xengine.colors import  *
 from xengine.types import   UNDEFINED
-from xengine.windows import Window
 
 class Point(list):
 
     def __init__(self, x = 0, y = 0, z = 0, RGBA = WHITE):
         super().__init__([x, y, z, RGBA])
 
-        self.verteces = np.array([x, y, z], dtype=np.float32)
+        self.vertices = np.array([x, y, z], dtype=np.float32)
 
         self.color = np.array([RGBA[0], RGBA[1], RGBA[2], RGBA[3]], dtype=np.float32)
 
@@ -32,19 +31,19 @@ class Point(list):
             mid_width = width / 2
             mid_height = height / 2
 
-        self.verteces = np.array([self.x / mid_width, self.y / mid_height, self.z], dtype=np.float32)
+        self.vertices = np.array([self.x / mid_width, self.y / mid_height, self.z], dtype=np.float32)
 
     @property
     def x(self):
-        return self.verteces[0]
+        return self.vertices[0]
     
     @property
     def y(self):
-        return self.verteces[1]
+        return self.vertices[1]
     
     @property
     def z(self):
-        return self.verteces[2]
+        return self.vertices[2]
 
     @property
     def R(self):
@@ -70,7 +69,7 @@ class Triangle(list):
     def initialize_triangle(self, point_1: Point, point_2: Point, point_3: Point):
         super().__init__([point_1, point_2, point_3])
 
-        self.verteces = np.array([  point_1.x, point_1.y, point_1.z,
+        self.vertices = np.array([  point_1.x, point_1.y, point_1.z,
                                     point_2.x, point_2.y, point_2.z,
                                     point_3.x, point_3.y, point_3.z],
                                     dtype=np.float32)
@@ -99,8 +98,7 @@ class Triangle(list):
 
     def draw(self):
         glEnableClientState(GL_VERTEX_ARRAY)
-        glVertexPointer(3, GL_FLOAT, 0, self.verteces)
+        glVertexPointer(3, GL_FLOAT, 0, self.vertices)
 
         glEnableClientState(GL_COLOR_ARRAY)
         glColorPointer(4, GL_FLOAT, 0, self.colors)
-
