@@ -68,16 +68,16 @@ def NONE():
 
 class Window:
 
-    def __init__(self, WIDTH = 720, HEIGHT = 480, TITLE = "XEngine Window", MONITOR = None, SHARE = None, LIMIT_TIME = 10 ** 5, FPS = 60, SETUP_FUNCTION = NONE, LOOP_FUNCTION = NONE):
-        self.WIDTH = WIDTH
-        self.HEIGHT = HEIGHT
-        self.TITLE = TITLE
-        self.MONITOR = MONITOR
-        self.SHARE = SHARE
-        self.LIMIT_TIME = LIMIT_TIME
+    def __init__(self, width = 720, heigth = 480, title = "XEngine Window", monitor = None, share = None, FPS = 60, setup_function = NONE, loop_function = NONE, limit_time = 10 ** 5):
+        self.width = width
+        self.height = heigth
+        self.title = title
+        self.monitor = monitor
+        self.share = share
+        self.limit_time = limit_time
         self.FPS = FPS
-        self.SETUP_FUNCTION = SETUP_FUNCTION
-        self.LOOP_FUNCTION = LOOP_FUNCTION
+        self.setup_function = setup_function
+        self.loop_function = loop_function
 
         self.GL_WINDOW = self.setup()
         self.loop()
@@ -87,7 +87,7 @@ class Window:
         if not glfw.init(): # Initialize the window
             return
 
-        window = glfw.create_window(self.WIDTH, self.HEIGHT, self.TITLE, self.MONITOR, self.SHARE)
+        window = glfw.create_window(self.width, self.height, self.title, self.monitor, self.share)
 
         if not window:
             glfw.terminate()
@@ -97,7 +97,7 @@ class Window:
 
         glClearColor(1, 1, 1, 1)
 
-        self.SETUP_FUNCTION()
+        self.setup_function()
 
         return window
 
@@ -108,7 +108,7 @@ class Window:
 
             glClear(GL_COLOR_BUFFER_BIT)
 
-            self.LOOP_FUNCTION() # Drawing code
+            self.loop_function() # Drawing code
             
             glfw.swap_buffers(self.GL_WINDOW) # Swap the Drawing buffer with the Display buffer
 
