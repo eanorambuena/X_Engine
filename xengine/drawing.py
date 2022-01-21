@@ -106,7 +106,7 @@ class Window:
         self.setup_function()
 
         if window is NOT_DEFINED:
-            raise Exception("Window not created in setup function while auto_setup is set to True")
+            raise Exception("NOT_DEFINED_ERROR: Window not created in setup function while auto_setup is set to False")
 
         return window
 
