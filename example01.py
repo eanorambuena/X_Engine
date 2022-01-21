@@ -16,4 +16,4 @@ def setup():
 def loop():
     glDrawArrays(GL_TRIANGLES, 0, 3)
 
-window = Window(720, 480, "XEngine Window", SETUP_FUNCTION=setup, LOOP_FUNCTION=loop)
+window = Window(720, 480, setup_function=setup, loop_function=loop)
