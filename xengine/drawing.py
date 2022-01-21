@@ -19,6 +19,12 @@ class Point(list):
 
         self.color = np.array([RGBA[0], RGBA[1], RGBA[2], RGBA[3]], dtype=np.float32)
 
+    def adapt_to_window(self, window):
+        mid_width = window.width / 2
+        mid_height = window.height / 2
+        
+        self.verteces = np.array([self.x / mid_width, self.y / mid_height, self.z], dtype=np.float32)
+
     @property
     def x(self):
         return self.verteces[0]
@@ -50,6 +56,9 @@ class Point(list):
 class Triangle(list):
 
     def __init__(self, point_1, point_2, point_3):
+        self.initialize_triangle(point_1, point_2, point_3)
+    
+    def initialize_triangle(self, point_1, point_2, point_3):
         super().__init__([point_1, point_2, point_3])
 
         self.verteces = np.array([  point_1.x, point_1.y, point_1.z,
@@ -61,6 +70,17 @@ class Triangle(list):
                                 point_2.R, point_2.G, point_2.B, point_2.A,
                                 point_3.R, point_3.G, point_3.B, point_3.A],
                                 dtype=np.float32)
+
+    def adapt_to_window(self, window):
+        point1 = self[0]
+        point2 = self[1]
+        point3 = self[2]
+
+        point1.adapt_to_window(window)
+        point2.adapt_to_window(window)
+        point3.adapt_to_window(window)
+
+        self.initialize_triangle(point1, point2, point3)
 
     def draw(self):
         glEnableClientState(GL_VERTEX_ARRAY)
