@@ -5,21 +5,23 @@ from    OpenGL.GL import (
     GL_COLOR_BUFFER_BIT,
 ) # pip install PyOpenGL
 
-from xengine.types import   UNDEFINED, NONE
+from xengine.types import UNDEFINED, NONE
 
 class Window:
 
     def __init__(self, width = 720, heigth = 480, title = "XEngine Window", monitor = None, share = None, FPS = 60, setup_function = NONE, loop_function = NONE, auto_setup = True, limit_time = 10 ** 5):
-        self.width = width
-        self.height = heigth
-        self.title = title
-        self.monitor = monitor
-        self.share = share
-        self.limit_time = limit_time
-        self.FPS = FPS
-        self.setup_function = setup_function
-        self.loop_function = loop_function
-        self.auto_setup = auto_setup
+        self.width =    width
+        self.height =   heigth
+        self.title =    title
+        self.monitor =  monitor
+        self.share =    share
+
+        self.limit_time =   limit_time
+        self.FPS =          FPS
+
+        self.setup_function =   setup_function
+        self.loop_function =    loop_function
+        self.auto_setup =       auto_setup
 
         self.internal_vars = {}
 
