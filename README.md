@@ -1,2 +1,2 @@
 # XEngine
-Experimental Graphic Engine developed with C++
+Experimental Graphic Engine developed with OpenGL
