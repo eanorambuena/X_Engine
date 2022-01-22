@@ -6,12 +6,12 @@ from xengine.shaders import STANDARD_SHADER
 vertex_shader, fragment_shader = STANDARD_SHADER
 
 def setup(window):
-    a = 70
+    a = 1
     
-    A = Point(0,        0,      0, MAGENTA)
-    B = Point(4 * a,    0,      0, CIAN)
-    C = Point(0,        3 * a,  0, YELLOW)
-    D = Point(4 * a,    3 * a,  0, MAGENTA)
+    A = Point(0,    0,  0, MAGENTA)
+    B = Point(a,    0,  0, CIAN)
+    C = Point(0,    a,  0, YELLOW)
+    D = Point(a,    a,  0, MAGENTA)
     
     T = GeneralShape(A, B, C, D)
     T.adapt_to_window(window)
