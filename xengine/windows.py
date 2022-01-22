@@ -8,10 +8,16 @@ from    OpenGL.GL import (
 
 from xengine.types import UNDEFINED, NONE
 
+def resize_window(window, width, height):
+    window.width = width
+    window.height = height
+
+    glViewport(0, 0, width, height)
+
 class Window:
 
     def __init__(self, width = 720, heigth = 480, title = "XEngine Window", monitor = None, share = None,
-                setup_function = NONE, loop_function = NONE, auto_setup = True,
+                setup_function = NONE, loop_function = NONE, auto_setup = True, auto_resize = True,
                 limit_time = 10 ** 5, FPS = 60):
                 
         self.width =   width
@@ -23,6 +29,7 @@ class Window:
         self.setup_function = setup_function
         self.loop_function =  loop_function
         self.auto_setup =     auto_setup
+        self.auto_resize =    auto_resize
 
         self.limit_time = limit_time
         self.FPS =        FPS
@@ -58,6 +65,9 @@ class Window:
             error_message = "Window not created in setup function while auto_setup is set to False"
             raise Exception(error + error_message)
 
+        if self.auto_resize:
+            self.enable_resize(window)
+
         return window
 
     def loop(self):
@@ -75,8 +85,5 @@ class Window:
 
         glfw.terminate() # Close
 
-    def resize(self, width, height):
-        self.width = width
-        self.height = height
-
-        glViewport(0, 0, width, height)
+    def enable_resize(self, GL_WINDOW):
+        glfw.set_window_size_callback(GL_WINDOW, resize_window)
