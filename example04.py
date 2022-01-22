@@ -13,13 +13,13 @@ def setup(window):
     C = Point(0,    a,  0, YELLOW)
     D = Point(a,    a,  0, MAGENTA)
     
-    T = GeneralShape(A, B, C, D)
-    T.set_zoom(0.002)
-    T.adapt_to_window(window)
-    T.set_shader(vertex_shader, fragment_shader)
-    T.draw()
+    S = GeneralShape(A, B, C, D)
+    S.apply_zoom(0.002)
+    S.set_shader(vertex_shader, fragment_shader)
+    S.draw()
 
 def loop(window):
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4)
+    
 
-window = Window(720, 580, setup_function=setup, loop_function=loop)
+window = Window(720, 580, setup_function=setup, loop_function=loop, auto_resize=True)

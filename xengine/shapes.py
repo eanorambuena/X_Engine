@@ -105,7 +105,6 @@ class GeneralShape(list):
         self.zoom = zoom
 
     def adapt_to_window(self, window = UNDEFINED, width = UNDEFINED, height = UNDEFINED):
-
         new_points = []
 
         for pt in self:
@@ -118,6 +117,17 @@ class GeneralShape(list):
             
             else:
                 point.adapt_to_window(width = width, height = height)
+
+            new_points.append(point)
+
+        self.initialize_general_shape(new_points, self.zoom)
+
+    def apply_zoom(self, ratio):
+        new_points = []
+
+        for pt in self:
+            point: Point = pt
+            point.set_zoom(ratio)
 
             new_points.append(point)
 
