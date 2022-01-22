@@ -6,7 +6,7 @@ from xengine.shaders import STANDARD_SHADER
 vertex_shader, fragment_shader = STANDARD_SHADER
 
 def setup(window):
-    a = 1
+    a = 300
     
     A = Point(0,    0,  0, MAGENTA)
     B = Point(a,    0,  0, CIAN)
@@ -21,4 +21,4 @@ def setup(window):
 def loop(window):
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4)
 
-window = Window(720, 480, setup_function=setup, loop_function=loop)
+window = Window(720, 580, setup_function=setup, loop_function=loop)
