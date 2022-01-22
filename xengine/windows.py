@@ -44,9 +44,10 @@ class Window:
             
             glfw.make_context_current(window) # Make the window the current window
 
-            glClearColor(1, 1, 1, 1)
-
         self.setup_function(self)
+
+        if self.auto_setup:
+            glClearColor(1, 1, 1, 1)
 
         if window is UNDEFINED:
             raise Exception("UNDEFINED_ERROR: Window not created in setup function while auto_setup is set to False")
