@@ -2,6 +2,7 @@ import  glfw # pip install glfw
 from    OpenGL.GL import (
     glClear,
     glClearColor,
+    glViewport,
     GL_COLOR_BUFFER_BIT,
 ) # pip install PyOpenGL
 
@@ -13,18 +14,18 @@ class Window:
                 setup_function = NONE, loop_function = NONE, auto_setup = True,
                 limit_time = 10 ** 5, FPS = 60):
                 
-        self.width =    width
-        self.height =   heigth
-        self.title =    title
-        self.monitor =  monitor
-        self.share =    share
+        self.width =   width
+        self.height =  heigth
+        self.title =   title
+        self.monitor = monitor
+        self.share =   share
 
-        self.setup_function =   setup_function
-        self.loop_function =    loop_function
-        self.auto_setup =       auto_setup
+        self.setup_function = setup_function
+        self.loop_function =  loop_function
+        self.auto_setup =     auto_setup
 
-        self.limit_time =   limit_time
-        self.FPS =          FPS
+        self.limit_time = limit_time
+        self.FPS =        FPS
 
         self.internal_vars = {}
 
@@ -73,3 +74,9 @@ class Window:
             t += 1
 
         glfw.terminate() # Close
+
+    def resize(self, width, height):
+        self.width = width
+        self.height = height
+
+        glViewport(0, 0, width, height)
