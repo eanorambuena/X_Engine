@@ -28,7 +28,12 @@ class Point(list):
         if self.zoom is UNDEFINED:
             self.zoom = 1 / mid_width
         
-        self.vertices = np.array([self.x * ratio * self.zoom, self.y * self.zoom, self.z], dtype=np.float32)
+        self.vertices = np.array([self.x * ratio * self.zoom, self.y * self.zoom, self.z * self.zoom], dtype=np.float32)
+
+    def set_zoom(self, ratio):
+        self.zoom = ratio
+
+        self.vertices = np.array([self.x * ratio, self.y * ratio, self.z * ratio], dtype=np.float32)
 
     @property
     def x(self):
