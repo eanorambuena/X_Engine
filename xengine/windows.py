@@ -9,19 +9,22 @@ from xengine.types import UNDEFINED, NONE
 
 class Window:
 
-    def __init__(self, width = 720, heigth = 480, title = "XEngine Window", monitor = None, share = None, FPS = 60, setup_function = NONE, loop_function = NONE, auto_setup = True, limit_time = 10 ** 5):
+    def __init__(self, width = 720, heigth = 480, title = "XEngine Window", monitor = None, share = None,
+                setup_function = NONE, loop_function = NONE, auto_setup = True,
+                limit_time = 10 ** 5, FPS = 60):
+                
         self.width =    width
         self.height =   heigth
         self.title =    title
         self.monitor =  monitor
         self.share =    share
 
-        self.limit_time =   limit_time
-        self.FPS =          FPS
-
         self.setup_function =   setup_function
         self.loop_function =    loop_function
         self.auto_setup =       auto_setup
+
+        self.limit_time =   limit_time
+        self.FPS =          FPS
 
         self.internal_vars = {}
 
@@ -50,7 +53,9 @@ class Window:
             glClearColor(1, 1, 1, 1)
 
         if window is UNDEFINED:
-            raise Exception("UNDEFINED_ERROR: Window not created in setup function while auto_setup is set to False")
+            error = "UNDEFINED_ERROR: "
+            error_message = "Window not created in setup function while auto_setup is set to False"
+            raise Exception(error + error_message)
 
         return window
 
