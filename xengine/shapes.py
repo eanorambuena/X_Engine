@@ -14,6 +14,7 @@ from    OpenGL.GL import (
     glVertexPointer,
     GL_ARRAY_BUFFER,
     GL_COLOR_ARRAY,
+    GL_FALSE,
     GL_FLOAT,
     GL_FRAGMENT_SHADER,
     GL_STATIC_DRAW,
@@ -81,16 +82,19 @@ class GeneralShape(list):
 
         self.initialize_general_shape(points_list)
 
-    def initialize_general_shape(self, points):
-        super().__init__(points)
+    def initialize_general_shape(self, points_list):
+        super().__init__(points_list)
+
+        points = len(points_list)
 
         vertices = []
 
-        for point in points:
+        for i in range(points):
+            point = points_list[i]
+
             vertices.append(point.x)
             vertices.append(point.y)
             vertices.append(point.z)
-
             vertices.append(point.R)
             vertices.append(point.G)
             vertices.append(point.B)
@@ -105,12 +109,12 @@ class GeneralShape(list):
         for point in self:
 
             if window is not UNDEFINED:
-                new_point = point.adapt_to_window(window)
+                point.adapt_to_window(window)
 
             else:
-                new_point = point.adapt_to_window(width = width, height = height)
+                point.adapt_to_window(width = width, height = height)
 
-            new_points.append(new_point)
+            new_points.append(point)
 
         self.initialize_general_shape(new_points)
 
@@ -121,8 +125,6 @@ class GeneralShape(list):
         self.shader = compileProgram(compiled_vertex_shader, compiled_fragment_shader)
 
     def draw(self):
-        glUseProgram(self.shader)
-
         VBO = glGenBuffers(1)
 
         glBindBuffer(GL_ARRAY_BUFFER, VBO)
@@ -131,9 +133,18 @@ class GeneralShape(list):
 
         glBufferData(GL_ARRAY_BUFFER, number_of_bytes, self.vertices, GL_STATIC_DRAW)
 
+        position_coords = len("xyz")
+        color_coords = len("RGBA")
+        total_coords = position_coords + color_coords
+
         position = glGetAttribLocation(self.shader, "a_position")
-
         glEnableVertexAttribArray(position)
+        position_pointer = ctypes.c_void_p(0)
+        glVertexAttribPointer(position, position_coords, GL_FLOAT, GL_FALSE, total_coords * BYTES_PER_FLOAT, position_pointer)
 
-        pointer = ctypes.c_void_p(0)
-        glVertexAttribPointer(position, 3, GL_FLOAT, False, 20, pointer)
+        color = glGetAttribLocation(self.shader, "a_color")
+        glEnableVertexAttribArray(color)
+        color_pointer = ctypes.c_void_p(position_coords * BYTES_PER_FLOAT)
+        glVertexAttribPointer(color, color_coords, GL_FLOAT, GL_FALSE, total_coords * BYTES_PER_FLOAT, color_pointer)
+
+        glUseProgram(self.shader)
