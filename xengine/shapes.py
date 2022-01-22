@@ -80,9 +80,9 @@ class GeneralShape(list):
     def __init__(self, *points: Point):
         points_list = list(points)
 
-        self.initialize_general_shape(points_list)
+        self.initialize_general_shape(points_list, UNDEFINED)
 
-    def initialize_general_shape(self, points_list):
+    def initialize_general_shape(self, points_list, zoom):
         super().__init__(points_list)
 
         points = len(points_list)
@@ -102,27 +102,35 @@ class GeneralShape(list):
 
         self.vertices = np.array(vertices, dtype=np.float32)
 
+        self.zoom = zoom
+
     def adapt_to_window(self, window = UNDEFINED, width = UNDEFINED, height = UNDEFINED):
 
         new_points = []
 
-        for point in self:
+        for pt in self:
+            point: Point = pt
+
+            point.zoom = self.zoom
 
             if window is not UNDEFINED:
                 point.adapt_to_window(window)
-
+            
             else:
                 point.adapt_to_window(width = width, height = height)
 
             new_points.append(point)
 
-        self.initialize_general_shape(new_points)
+        self.initialize_general_shape(new_points, self.zoom)
 
     def set_shader(self, vertex_shader, fragment_shader):
         compiled_vertex_shader = compileShader(vertex_shader, GL_VERTEX_SHADER)
         compiled_fragment_shader = compileShader(fragment_shader, GL_FRAGMENT_SHADER)
 
         self.shader = compileProgram(compiled_vertex_shader, compiled_fragment_shader)
+
+    def set_zoom(self, zoom):
+        self.zoom = zoom
 
     def draw(self):
         VBO = glGenBuffers(1)
