@@ -4,7 +4,8 @@ from    OpenGL.GL import (
     glClearColor,
     glViewport,
     GL_COLOR_BUFFER_BIT,
-) # pip install PyOpenGL
+)
+from numpy import number # pip install PyOpenGL
 
 from xengine.types import UNDEFINED, NONE
 
@@ -16,9 +17,20 @@ def resize_window(window, width, height):
 
 class Window:
 
-    def __init__(self, width = 720, heigth = 480, title = "XEngine Window", monitor = None, share = None,
-                setup_function = NONE, loop_function = NONE, auto_setup = True, auto_resize = True,
-                limit_time = 10 ** 5, FPS = 60):
+    def __init__(
+        self,
+        width: int = 720,
+        heigth: int = 480,
+        title: str = "XEngine Window",
+        monitor: glfw._GLFWmonitor = None,
+        share: glfw._GLFWwindow = None,
+        setup_function = NONE,
+        loop_function = NONE,
+        auto_setup: bool = True,
+        auto_resize: bool = True,
+        limit_time: number = 10 ** 5,
+        FPS: int = 60
+    ):
                 
         self.width =   width
         self.height =  heigth
